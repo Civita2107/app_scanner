@@ -457,17 +457,25 @@ def cordova_scan(decoded_dir):
             reason.append("CSP missing")
         if permissive_access:
             reason.append("permissive access origin configuration")
-        vulns.append(f"localStorage data can be exfiltrated (due to: {', '.join(reason)})") 
+        vulns.append(f"localStorage data exfiltration (due to: {', '.join(reason)})") 
 
+    # 2. localStorage Exfiltration
+    if security_weakness and internet and localStorage_used and allow_navigation:
+        reason = []
+        if csp_missing:
+            reason.append("CSP missing")
+        if permissive_access:
+            reason.append("permissive access origin configuration")
+        vulns.append(f"Same-Origin Iframe exfiltrating localStorage (due to: {', '.join(reason)})") 
 
-    # 2. External Script Injection accessing File Plugin API
+    # 3. External Script Injection accessing File Plugin API
     if security_weakness and internet and cordova_plugin_file and resolve_used:
         reason = []; 
         if csp_missing: reason.append("CSP missing"); 
         if permissive_access: reason.append("permissive access origin");
         vulns.append(f"External Script Injection accessing Cordova File Plugin API (due to: {', '.join(reason)})")
 
-    # 3. External Script Injection accessing HTML files
+    # 4. External Script Injection accessing HTML files
     if security_weakness and internet:
         reason = []
         if csp_missing:
@@ -476,7 +484,7 @@ def cordova_scan(decoded_dir):
             reason.append("permissive access origin configuration")
         vulns.append(f"External Script Injection accessing the application HTML files (due to: {', '.join(reason)})")
 
-    # 4. Same-Origin Iframe accessing File Plugin API
+    # 5. Same-Origin Iframe accessing File Plugin API
     if security_weakness and internet and cordova_plugin_file and resolve_used and allow_navigation:
         reason = []
         if csp_missing:
@@ -485,7 +493,7 @@ def cordova_scan(decoded_dir):
             reason.append("permissive access origin configuration")
         vulns.append(f"Same-Origin Iframe loading of malicious files accessing the Cordova File Plugin API (due to: {', '.join(reason)})")
 
-    # 5. Same-Origin Iframe accessing HTML files
+    # 6. Same-Origin Iframe accessing HTML files
     if security_weakness and internet and allow_navigation:
         reason = []
         if csp_missing:
