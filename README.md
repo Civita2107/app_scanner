@@ -29,7 +29,8 @@ This **Python** script is designed to perform **static security analysis** on **
 - **Structured Output**: Generates a detailed JSON report suitable for integration into automated security pipelines
 ## Vlunerabilities
 - **Cordova**:
-  - localStorage data exfiltration   
+  - localStorage data exfiltration
+  - Same-Origin Iframe exfiltrating localStorage
   - External Script Injection accessing the Cordova File Plugin API
   - External Script Injection accessing the application HTML files
   - Same-Origin Iframe loading of malicious files accessing the Cordova File Plugin API
