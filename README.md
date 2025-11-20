@@ -1,5 +1,5 @@
 # app_scanner
-This Python script is designed to perform static security analysis on Android APK files built with React Native, Ionic/Capacitor, or Cordova.  The script automatically detects the underlying hybrid framework and runs the corresponding, focused security audit to identify common configuration errors and vulnerabilities.
+This **Python** script is designed to perform **static security analysis** on **Android APK** files built with **React Native**, **Ionic/Capacitor**, or **Cordova**.  The script automatically detects the underlying hybrid framework and runs the corresponding, focused security audit to identify **common configuration errors** and **vulnerabilities**.
 ## Requirements
 - **Python 3.6**
 - **apktool** installed and accessible in your system's PATH
