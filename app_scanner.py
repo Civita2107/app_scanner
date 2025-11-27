@@ -181,10 +181,8 @@ def react_native_scan(decompiled_path):
             "async_vulnerable": async_vulnerable,
             "webview_vulnerable": webview_vulnerable,
             "vulnerability_verdicts": [
-                "AsyncStorage/SecureStore data exfiltration risk (Read storage + Webview injection/postMessage used)"
-            ] if async_vulnerable else [] + [
-                "Insecure WebView component configuration (e.g., JavaScript enabled, wildcard origin, addJavascriptInterface)"
-            ] if webview_vulnerable else [],
+                "AsyncStorage Attack (due to: asyncStorage.setItem used, originWhitelist='*', postMessage used)"
+            ] if (async_vulnerable and webview_vulnerable) else [],
             "evidence": {
                 "storage_hits": [{"file": f, "snippet": m["snippet"]} for (f,m) in storage_hits],
                 "send_hits": [{"file": f, "snippet": m["snippet"]} for (f,m) in send_hits],
@@ -295,15 +293,15 @@ def ionic_scan(decompiled_dir):
     
     # 1. localStorage Attack
     if checks['localStorage_setItem'] and checks['csp_missing']:
-        vulnerability_verdicts.append("localStorage attack (due to: CSP missing and localStorage.setItem usage)")
+        vulnerability_verdicts.append("localStorage Attack (due to: CSP missing and localStorage.setItem usage)")
     
     # 2. capacitorPreferences Attack
     if checks['preferences_import'] and checks['csp_missing'] and bridge_exposed:
-        vulnerability_verdicts.append("Capacitor Preferences attack (due to: CSP missing and bridge exposed)")
+        vulnerability_verdicts.append("Capacitor Preferences Attack (due to: CSP missing and bridge exposed)")
 
     # 3. capacitorFileSystem Attack
     if checks['filesystem_import'] and checks['filesystem_writefile'] and checks['csp_missing'] and bridge_exposed:
-        vulnerability_verdicts.append("Capacitor Filesystem attack (due to: CSP missing, writeFile usage, and bridge exposed)")
+        vulnerability_verdicts.append("Capacitor Filesystem Attack (due to: CSP missing, writeFile usage, and bridge exposed)")
 
     # 4. Same-Origin iframe accessing localStorage Attack
     if checks['iframe_assets'] and checks['localStorage_setItem'] and checks['csp_missing']:
@@ -326,6 +324,7 @@ def ionic_scan(decompiled_dir):
         "framework": "IONIC_CAPACITOR",
         "vulnerability_checks": checks,
         "vulnerability_verdicts": vulnerability_verdicts,
+        # This can be uncommented to show the files where the vulnerabilities have been found
         #"evidence_files": {k: v for k, v in found.items() if v}
     }
 
